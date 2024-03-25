@@ -39,6 +39,7 @@ dependencies:
   firebase_auth: ^4.17.8
   cloud_firestore: ^4.15.8
   google_fonts: ^6.2.1
+  audioplayers: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -79,7 +80,7 @@ flutter:
     - assets\artists\ap-modified.png
     - assets\artists\ritviz-modified.png
     - assets\artists\divine-modified.png
-    - assets/songs/
+    - assets\audio\udd_gaye.mp3
     - images/spotify_logo_banner_black.png
     - images/spotify_logo_title.png
     - images/spotify_logo_vertical_black.jpg

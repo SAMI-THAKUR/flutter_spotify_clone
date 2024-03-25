@@ -1,9 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify_final/components/HOME/home.dart';
+import '../components/tabbar.dart';
 import '/logic/basic_ui.dart';
 
 class SessionManagement extends ChangeNotifier {
@@ -12,9 +13,7 @@ class SessionManagement extends ChangeNotifier {
   Future<User?> currentUser() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      print("No User");
     } else {
-      print("Current User : " + user.uid);
       return user;
     }
     return null;
@@ -53,13 +52,11 @@ class LoginLogic extends ChangeNotifier {
   }
 
   void loginIn(BuildContext context, String email, String pass) async {
-    print("Username : " + email + "Password : " + pass);
     isAuthenticating = true;
     notifyListeners();
     try {
       UserCredential user = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: pass);
-      print(user.user?.uid);
       isAuthenticating = false;
       notifyListeners();
       Navigator.pushAndRemoveUntil(
@@ -71,13 +68,12 @@ class LoginLogic extends ChangeNotifier {
                         create: (_) => SessionManagement(),
                       )
                     ],
-                    child: Home(),
+                    child: const Tabbar(),
                   )),
           (Route<dynamic> route) => false);
     } catch (e) {
       final ShowCustomAlertDialog showCustomAlertDialog =
           ShowCustomAlertDialog();
-      print("Catch Error : " + e.toString());
       showCustomAlertDialog.showCustomDialog(context, e.toString());
       isAuthenticating = false;
       loginButton = false;
@@ -136,7 +132,6 @@ class CreateUserAccount extends ChangeNotifier {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      print("Signed up as : " + userCredential.user!.uid);
       await FirebaseFirestore.instance
           .collection("users")
           .doc(userCredential.user?.uid)
@@ -158,44 +153,15 @@ class CreateUserAccount extends ChangeNotifier {
                         create: (_) => SessionManagement(),
                       )
                     ],
-                    child: const Home(),
+                    child: const Tabbar(),
                   )),
           (Route<dynamic> route) => false);
       return true;
     } catch (e) {
       final ShowCustomAlertDialog showCustomAlertDialog =
           ShowCustomAlertDialog();
-      print(e.toString());
       isCreatingAccount = false;
       notifyListeners();
-      showCustomAlertDialog.showCustomDialog(context, e.toString());
-      return false;
-    }
-  }
-}
-
-class ForgotPassword extends ChangeNotifier {
-  late String email;
-  ShowCustomAlertDialog showCustomAlertDialog = ShowCustomAlertDialog();
-  bool getLinkEnable = false;
-  void buttonActivateListener(String text) {
-    //print(text);
-    email = text;
-    if (text.length > 5) {
-      getLinkEnable = true;
-      notifyListeners();
-    } else {
-      getLinkEnable = false;
-      notifyListeners();
-    }
-  }
-
-  Future<bool> sendEmail(BuildContext context, String email) async {
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      return true;
-    } catch (e) {
-      print(e.toString());
       showCustomAlertDialog.showCustomDialog(context, e.toString());
       return false;
     }

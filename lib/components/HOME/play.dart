@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
-import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:audioplayers/audioplayers.dart';
-import 'data.dart' as data;
+import 'package:audioplayers/audioplayers.dart';
 
+// ignore: camel_case_types
 class play extends StatefulWidget {
   const play({Key? key, required this.index, required this.map})
       : super(key: key);
@@ -30,10 +30,17 @@ class _play extends State<play> {
     }
 
     int state = 0;
-    void playSong() async {
-      setState(() {
-        state = 1;
-      });
+
+    void playSound() async {
+      final player = AudioPlayer();
+      String soundPath = "audio/udd_gaye.mp3"; // Path to your audio file
+
+      try {
+        await player.play(soundPath as Source);
+        print("Playing");
+      } catch (e) {
+        print("Error playing audio: $e");
+      }
     }
 
     void pauseSong() async {
@@ -152,7 +159,7 @@ class _play extends State<play> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.shuffle,
                         color: Color(0xfff5f5f5),
                         size: 25,
@@ -160,44 +167,35 @@ class _play extends State<play> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.keyboard_double_arrow_left_rounded,
                             size: 40,
                             color: Color(0xfff5f5f5),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           InkWell(
                             onTap: () {
-                              // if (state == 0) {
-                              //   playSong();
-                              // } else {
-                              //   pauseSong();
-                              // }
-                              // audioPlayer.setSource(
-                              //     AssetSource('assets/audio/udd_gaye.wav'));
-                              // audioPlayer.play(
-                              //     AssetSource('assets/audio/udd_gaye.wav'));
-                              // print("playing");
+                              playSound();
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.play_circle_filled_rounded,
                               size: 75,
                               color: Color(0xfff5f5f5),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
-                          Icon(
+                          const Icon(
                             Icons.keyboard_double_arrow_right_rounded,
                             size: 40,
                             color: Color(0xfff5f5f5),
                           )
                         ],
                       ),
-                      Icon(
+                      const Icon(
                         Icons.loop_rounded,
                         size: 25,
                         color: Color(0xfff5f5f5),

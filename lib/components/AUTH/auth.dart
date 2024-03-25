@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '/logic/auth_logic.dart';
-import '../HOME/home.dart';
+import '../tabbar.dart';
 import './auth_ui.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           create: (_) => SessionManagement(),
                         ),
                       ],
-                      child: const Home(),
+                      child: const Tabbar(),
                     ),
                   )));
     }

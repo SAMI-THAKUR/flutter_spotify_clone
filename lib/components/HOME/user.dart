@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ignore: use_key_in_widget_constructors
 class UserProfile extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -15,10 +16,10 @@ class UserProfile extends StatelessWidget {
           .snapshots(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         } else if (!snapshot.hasData || snapshot.data!.data() == null) {
           // User document not found
-          return Text("User not found");
+          return const Text("User not found");
         } else {
           // User document found
           Map<String, dynamic> userData =

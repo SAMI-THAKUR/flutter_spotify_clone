@@ -4,7 +4,6 @@ import 'package:spotify_final/components/HOME/user.dart';
 import 'album.dart';
 import 'play.dart';
 import 'data.dart' as data;
-import '../settings.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -39,23 +38,14 @@ class Home extends StatelessWidget {
                 ),
               ],
             ),
-            Row(
+            const Row(
               children: [
-                const Logo(
+                Logo(
                   logo: Icons.watch_later_outlined,
                 ),
-                const Logo(
+                Logo(
                   logo: Icons.notifications,
                 ),
-                IconButton(
-                  onPressed: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Setting())),
-                  icon: const Icon(
-                    Icons.account_circle_outlined,
-                    color: Color(0xffd5d5d5),
-                    size: 28,
-                  ),
-                )
               ],
             )
           ],
